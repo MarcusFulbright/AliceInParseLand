@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script src="Js/jquery-2.1.4.min.js" ></script>
+<script src="Css/style.css"></script>
+<script type="application/javascript">
+    $(document).ready(function(){
+        /*
+          load the xml doc and get the two meaningful nodes span and charseq putting each in a global var to use later
+          this is a bit dirty, but it works. Yes I know async = false is bad, needs some refactoring
+         */
+        $.ajax({
+            type: "GET",
+            url: "Data/ch08.txt.xml",
+            dataType: "xml",
+            success: function (xml_content) {
+                charseqs = ($(xml_content).find('charseq'));
+                spans = ($(xml_content).find('span'));
+            },
+            async: false
+        });
+        /*
+          load up the chapter text and store it in a global var. This is dirty, but it works.
+          Yes I use async = false here too...
+         */
+        $.ajax({
+            type: "GET",
+            url: "Data/ch08.txt",
+            dataType: "text",
+            success: function (text_content) {
+                chapter = text_content;
+            },
+            async: false
+        });
+        //offset is used to keep track of the tags that I add to the chapter string
+        var offset = 0;
+        // loop over every span tag from the xml document, each tag has an accompanying charseqs node
+        for (var i = 0; i < spans.length; i++) {
+            //get the relevant charseq values
+            var charseq = charseqs[i];
+            //get the relevant span tag
+            var span = spans[i];
+            //create the open span tag
+            var open_tag = '<span class="' + span.getAttribute('category') + '" title="' + charseq.textContent + '">';
+            //the closing span tag
+            var close_tag = '</span>';
+            //the START value of the relevant charseq tag converted to an integer + the offset of previously added tags.
+            var start = +charseq.getAttribute('START') + offset;
+            /*
+            the END value of the relevant charseq tag + the offset of previously added tag +1 to account for strings
+             indexed at 0 converted to an integer
+             */
+            var end = +charseq.getAttribute('END') + 1 + offset;
+            // the new sub string from chapter that has the opening and closing span tags
+            var new_tag = open_tag + chapter.substr(start, end -start) + close_tag;
+            // the beginning of the chapter before the beginning of the text that needs the annotation
+            var chapter_beginning = chapter.substr(0, start);
+            // the remainder of the chapter after the annotation
+            var chapter_end = chapter.substr(end);
+            // insert the annotated section with the span tags.
+            chapter = chapter_beginning + new_tag + chapter_end;
+            //adjust the offset to account to the character length of the added span tags
+            offset = offset + open_tag.length + close_tag.length;
+        }
+        // write the chapter to the document in a p tag
+        document.write('<p>' + chapter + '</p>');
+    });
+</script>
+</body>
+</html>
