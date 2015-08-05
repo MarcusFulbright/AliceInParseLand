@@ -22,7 +22,7 @@ This repository is 100% self contained. It only relies on *Jquery* which resides
 
 ## Methodology
 
-Parse `ch08.txt` and insert a *p* tag with its contents. Separately, parse `ch08.txt.xml` to determine where annotations belong along with their contents. To display the annotations, *span* tags wrap around passages with annotations. These span tags have a CSS class that corresponds to the *type* of the annotation. This class allows for annotations to get color coded and provides a visual aid in addition to the global count. Hovering the mouse over a *span* tag will bring up a tool tip that displays the content of the annotation. Clicking on the annotation will display the tool tip until the *span* tag is clicked again. Displayed tool tips will have a button to delete the annotation. Any changes to the annotation will not get saved to the underlying data files and only only affect the displayed data.
+Parse `ch08.txt` and insert a *p* tag with its contents. Separately, parse `ch08.txt.xml` to determine where annotations belong along with their contents. To display the annotations, *span* tags wrap around passages with annotations. These span tags have a CSS class that corresponds to the *type* of the annotation. This class allows for annotations to get color coded and provides a visual aid. Clicking on the annotation will remove the *css* class from the annotation and reduce the appropriate count by 1. Any changes to the annotation will not get saved to the underlying data files and only only affect the displayed data.
 
 ## Completed
 
