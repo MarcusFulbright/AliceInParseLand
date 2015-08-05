@@ -82,24 +82,42 @@
         }
         // write the chapter to the document in a p tag
         $('.container').append('<p>' + chapter + '</p>');
+
+        //write the annotation type counts
+        function writeCounts() {
+            $("li[category=PERSON]").text('person count: '+person_count);
+            $("li[category=LOCATION]").text('location count: '+location_count);
+            $("li[category=ORGANIZATION]").text('organization count: '+organization_count);
+        }
+        writeCounts();
+
         //basic interaction to 'delete' annotations
         $('span').click(function() {
-           this.setAttribute("class", "");
+            var span_class = this.getAttribute('class');
+            if (span_class === 'PERSON') {
+                person_count--;
+            }
+            if (span_class === 'LOCATION') {
+                location_count--;
+            }
+            if (span_class ==='ORGANIZATION') {
+                organization_count--;
+            }
+            this.setAttribute("class", "");
+            writeCounts();
         });
-
-        $("li[category=PERSON]").text('person count: '+person_count);
-        $("li[category=PLACE]").text('location_count: '+location_count);
-        $("li[category=ORGANIZATION]").text('organization_count: '+organization_count);
     });
 
 </script>
-<div class="count">
+<h1 class="center">Alice In Wonderland: Chapter 08</h1>
+
+<div class="count center">
     <ul>
-        <li category="PERSON"></li>
-        <li category="PLACE"></li>
-        <li category="ORGANIZATION"></li>
+        <li category="PERSON" class="PERSON"></li>
+        <li category="LOCATION" class="LOCATION"></li>
+        <li category="ORGANIZATION" class="ORGANIZATION"></li>
     </ul>
 </div>
-<div class="container"></div>
+<div class="container center"></div>
 </body>
 </html>
