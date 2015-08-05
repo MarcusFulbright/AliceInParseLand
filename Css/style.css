@@ -1,0 +1,31 @@
+body {
+    background-color: #fff;
+}
+
+.container {
+    width: 50%;
+    margin-left: 20%;
+    padding-top: 2%;
+}
+
+.PERSON {
+    background-color: #FF4136;
+}
+
+.LOCATION {
+    background-color: #55acee;
+}
+
+.ORGANIZATION {
+    background-color: #2ECC40;
+}
+
+.annotation {
+    background-color: #AAAAAA;
+    z-index: 10;
+    position: relative;
+}
+
+li {
+    display: inline;
+}

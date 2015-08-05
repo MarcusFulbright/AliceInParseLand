@@ -2,11 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title>Alice In Parse Land</title>
 </head>
-<body>
 <script src="Js/jquery-2.1.4.min.js" ></script>
-<script src="Css/style.css"></script>
+<link rel="stylesheet", type="text/css", href="Css/style.css">
 <script type="application/javascript">
     $(document).ready(function(){
         /*
@@ -36,39 +35,71 @@
             },
             async: false
         });
+        var person_count = 0;
+        var location_count = 0;
+        var organization_count = 0;
+
         //offset is used to keep track of the tags that I add to the chapter string
         var offset = 0;
         // loop over every span tag from the xml document, each tag has an accompanying charseqs node
         for (var i = 0; i < spans.length; i++) {
-            //get the relevant charseq values
             var charseq = charseqs[i];
-            //get the relevant span tag
             var span = spans[i];
-            //create the open span tag
-            var open_tag = '<span class="' + span.getAttribute('category') + '" title="' + charseq.textContent + '">';
-            //the closing span tag
-            var close_tag = '</span>';
-            //the START value of the relevant charseq tag converted to an integer + the offset of previously added tags.
-            var start = +charseq.getAttribute('START') + offset;
+            var category = span.getAttribute('category');
+
+            // handle the count of annotation types
+            if (category === 'PERSON') {
+                person_count++;
+            }
+            if (category === 'LOCATION') {
+                location_count++;
+            }
+            if (category === 'ORGANIZATION') {
+                organization_count++
+            }
+
             /*
-            the END value of the relevant charseq tag + the offset of previously added tag +1 to account for strings
-             indexed at 0 converted to an integer
+             Get positional information for the start and end of the annotation with an offset that accounts for
+             previously added annotations;
              */
+            var start = +charseq.getAttribute('START') + offset;
             var end = +charseq.getAttribute('END') + 1 + offset;
-            // the new sub string from chapter that has the opening and closing span tags
-            var new_tag = open_tag + chapter.substr(start, end -start) + close_tag;
-            // the beginning of the chapter before the beginning of the text that needs the annotation
+
+            //create the span tag
+            var open_tag = '<span class="' + span.getAttribute('category') + '">';
+            var close_tag = '</span>';
+
+            // wrap the appropriate text with the span tags
+            var new_tag = open_tag + chapter.substr(start, end - start) + close_tag;
+
+            //cut the chapter in two, omitting the annotated text & insert the new tag in the middle
             var chapter_beginning = chapter.substr(0, start);
-            // the remainder of the chapter after the annotation
             var chapter_end = chapter.substr(end);
-            // insert the annotated section with the span tags.
             chapter = chapter_beginning + new_tag + chapter_end;
+
             //adjust the offset to account to the character length of the added span tags
             offset = offset + open_tag.length + close_tag.length;
         }
         // write the chapter to the document in a p tag
-        document.write('<p>' + chapter + '</p>');
+        $('.container').append('<p>' + chapter + '</p>');
+        //basic interaction to 'delete' annotations
+        $('span').click(function() {
+           this.setAttribute("class", "");
+        });
+
+        $("li[category=PERSON]").text('person count: '+person_count);
+        $("li[category=PLACE]").text('location_count: '+location_count);
+        $("li[category=ORGANIZATION]").text('organization_count: '+organization_count);
     });
+
 </script>
+<div class="count">
+    <ul>
+        <li category="PERSON"></li>
+        <li category="PLACE"></li>
+        <li category="ORGANIZATION"></li>
+    </ul>
+</div>
+<div class="container"></div>
 </body>
 </html>
