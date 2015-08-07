@@ -1,7 +1,9 @@
+// create some variables to keep track of counts
 var person_count       = 0;
 var location_count     = 0;
 var organization_count = 0;
 
+//load the xml content
 function getXml() {
      return $.ajax({
          type: "GET",
@@ -13,10 +15,7 @@ function getXml() {
      });
 }
 
-/*
-load up the chapter text and store it in a global var. This is dirty, but it works.
-Yes I use async = false here too...
-*/
+//load the chapter text
  function getChapterText() {
      return $.ajax({
          type: "GET",
@@ -28,6 +27,7 @@ Yes I use async = false here too...
      });
  }
 
+// Use the given data to annotate a chapter
 function annotateChapter(charseqs, spans, chapter) {
     //offset is used to keep track of the tags that I add to the chapter string
     var offset = 0;
@@ -35,16 +35,16 @@ function annotateChapter(charseqs, spans, chapter) {
     for (var i = 0; i < spans.length; i++) {
         var charseq = charseqs[i];
         var span = spans[i];
-        var category = span.getAttribute('category');
+        var type = span.getAttribute('category');
 
         // handle the count of annotation types
-        if (category === 'PERSON') {
+        if (type === 'PERSON') {
             person_count++;
         }
-        if (category === 'LOCATION') {
+        if (type === 'LOCATION') {
             location_count++;
         }
-        if (category === 'ORGANIZATION') {
+        if (type === 'ORGANIZATION') {
             organization_count++
         }
 
@@ -75,9 +75,9 @@ function annotateChapter(charseqs, spans, chapter) {
 
 //write the annotation type counts
 function writeCounts() {
-    $("li[category=PERSON]").text('person count: '+person_count);
-    $("li[category=LOCATION]").text('location count: '+location_count);
-    $("li[category=ORGANIZATION]").text('organization count: '+organization_count);
+    $("li.PERSON").text('person count: '+person_count);
+    $("li.LOCATION").text('location count: '+location_count);
+    $("li.ORGANIZATION").text('organization count: '+organization_count);
 }
 
 //basic interaction to 'delete' annotations

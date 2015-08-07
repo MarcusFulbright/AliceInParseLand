@@ -8,9 +8,10 @@
 <script src="Js/jquery-2.1.4.min.js" ></script>
 <script src="Js/index.js"></script>
 <script type="application/javascript">
-    $(document).ready(function(){
+    $(document).ready(function() {
         var xml_content = getXml();
         var chapter = getChapterText();
+        //Use the jquery promise API to populate the page with the annotated chapter text
         xml_content.done(
             function(xml_content) {
                 var spans = $(xml_content).find('span');
@@ -23,20 +24,24 @@
                 )
             }
         );
+        //delegate the delete function on click to span tags when they get added to the dom
         $(document).delegate('span', 'click', function() {
             deleteAnnotation(this);
         });
     });
-
 </script>
-<h1 class="center">Alice In Wonderland: Chapter 08</h1>
-
-<div class="count center">
-    <ul>
-        <li category="PERSON" class="PERSON"></li>
-        <li category="LOCATION" class="LOCATION"></li>
-        <li category="ORGANIZATION" class="ORGANIZATION"></li>
-    </ul>
+<div class="center info">
+    <h1>Alice In Wonderland: Chapter 08</h1>
+    <div class="count">
+        <ul>
+            <li class="PERSON"></li>
+            <li class="LOCATION"></li>
+            <li class="ORGANIZATION"></li>
+        </ul>
+        <ul>
+            <li>(click an annotation to remove it)</li>
+        </ul>
+    </div>
 </div>
 <div class="container center"></div>
 </body>
