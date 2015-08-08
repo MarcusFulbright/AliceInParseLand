@@ -10,26 +10,16 @@ Two data files are supplied in the `Data/` directory:
   * `ch08.txt`: a text file containing the contents from the 8th chapter of Alice In Wonderland
   * `ch08.txt.xml`: an xml document describing the position and text for annotations that pairs with *ch08.txt*
 
-## Set Up
-
-This repository is 100% self contained. It only relies on *Jquery* which resides in the `Js/` directory. To view the interface, simply launch `index.html` in the latest version of chrome. Other browsers are not supported. No back end, server, or database is required.
-
 ## Constraints
 
 * You must use jQuery for any DOM manipulation that you want to perform in your interface if you choose to do this in the client
 * You should not use any other JavaScript libraries for this assignment
 * CSS, if used, must be separated into css files (i.e., no in-line CSS where it makes sense to segment)
 
+## Set Up
+
+This repository is 100% self contained. It only relies on *Jquery* which resides in the `Js/` directory. To view the interface, simply launch `index.html` in the latest version of chrome. Other browsers are not supported. No back end, server, or database is required.
+
 ## Methodology
 
-Parse `ch08.txt` and insert a *p* tag with its contents. Separately, parse `ch08.txt.xml` to determine where annotations belong along with their contents. To display the annotations, *span* tags wrap around passages with annotations. These span tags have a CSS class that corresponds to the *type* of the annotation. This class allows for annotations to get color coded and provides a visual aid. Clicking on the annotation will remove the *css* class from the annotation and reduce the appropriate count by 1. Any changes to the annotation will not get saved to the underlying data files and only only affect the displayed data.
-
-## Completed
-
-* Logic to parse the *Data* files and build out the markup for the chapter and *span* tags.
-
-## To-Do
-
-  * create style sheet, currently no CSS exists
-  * build count for total counts of annotation types
-  * build mechanism to delete annotations
+Parse `ch08.txt` and insert a *p* tag with its contents. Separately, parse `ch08.txt.xml` to determine where annotations belong. To display the annotations, *span* tags wrap around passages with annotations. These span tags have a CSS class that corresponds to the *category* of the annotation. This class allows for annotations to get color coded and provides a visual aid. Clicking on the annotation will remove the *css* class from the annotation and reduce the appropriate count by 1. Any changes to the annotation will not get saved to the underlying data files and only only affect the displayed data.

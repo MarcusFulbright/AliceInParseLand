@@ -16,6 +16,10 @@
             function(xml_content) {
                 var spans = $(xml_content).find('span');
                 var charseqs = $(xml_content).find('charseq');
+                //error handling for failing to load the file
+                chapter.fail(function(){
+                    alert("Error Parsing ch08.txt");
+                });
                 chapter.done(
                     function(chapter_content) {
                         $('.container').append('<p>' +annotateChapter(charseqs, spans, chapter_content)+'</p>');
@@ -24,6 +28,10 @@
                 )
             }
         );
+        //error handling for failing to load the file
+        xml_content.fail( function() {
+            alert("Error Parsing ch08.txt.xml");
+        });
         //delegate the delete function on click to span tags when they get added to the dom
         $(document).delegate('span', 'click', function() {
             deleteAnnotation(this);
